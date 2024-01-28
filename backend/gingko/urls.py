@@ -6,7 +6,7 @@ from .views import submissions_list, results_list
 
 
 urlpatterns = [
-    path("results/", submissions_list),
-    path("submissions/", results_list),
+    path("results/", results_list),
+    path("submissions/", submissions_list)
 ]
 urlpatterns = format_suffix_patterns(urlpatterns)
