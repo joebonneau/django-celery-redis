@@ -4,22 +4,15 @@ from rest_framework.response import Response
 
 from gingko.models import Result, Submission
 from gingko.serializers import ResultSerializer, SubmissionSerializer
-from gingko.tasks import align_sequences
 
 
-@api_view(["GET", "POST"])
+@api_view(["GET"])
 def submissions_list(request):
     if request.method == "GET":
         submissions = Submission.objects.all()
         serializer = SubmissionSerializer(submissions, many=True)
         return Response(serializer.data)
     elif request.method == "POST":
-        serializer = SubmissionSerializer(data=request.data)
-        if serializer.is_valid():
-            obj = serializer.save()
-            align_sequences.delay(obj.id)
-            print(serializer.data)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["GET", "POST"])
