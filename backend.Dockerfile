@@ -2,7 +2,7 @@ FROM python:3.12
 
 WORKDIR /app
 
-COPY ./backend /app/backend
+COPY . /app
 
 RUN chmod +x server-entrypoint.sh
 RUN chmod +x celery-entrypoint.sh
@@ -17,5 +17,5 @@ ARG POSTGRES_PASSWORD
 ARG POSTGRES_NAME
 
 RUN pip install --upgrade pip
-RUN pip install -r /app/backend/requirements.txt
+RUN pip install -r ./backend/requirements.txt
 RUN python3 manage.py migrate
