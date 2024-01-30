@@ -1,0 +1,51 @@
+version: "3"
+services:
+  server:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./deploy/docker/backend/Dockerfile
+    entrypoint: /app/deploy/docker/backend/server-entrypoint.sh
+    # expose:
+    #   - 8000
+    ports:
+      - "8000:8000"
+    environment:
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+
+  celery_worker:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./deploy/docker/backend/Dockerfile
+    entrypoint: /app/deploy/docker/backend/celery-entrypoint.sh
+    volumes:
+      - ./backend:/app/backend/
+    environment:
+      DEBUG: "True"
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+    depends_on:
+      - server
+      - redis
+
+  redis:
+    restart: unless-stopped
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+    # expose:
+    #   - 6379
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./deploy/docker/frontend/Dockerfile
+    volumes:
+      - ./frontend:/app/frontend/
+    environment:
+      NODE_ENV: "production"
+      # HOSTNAME: 0.0.0.0
+    ports:
+      - "3000:3000"
