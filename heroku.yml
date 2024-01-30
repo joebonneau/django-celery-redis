@@ -15,9 +15,9 @@ build:
     POSTGRES_PASSWORD: postgres
     POSTGRES_PORT: 5432
   docker:
-    web: ./deploy/docker/backend/Dockerfile
-    worker: ./deploy/docker/backend/Dockerfile
+    web: ./backend.Dockerfile
+    worker: ./backend.Dockerfile
 
 run:
-  web: sh /app/deploy/docker/backend/server-entrypoint.sh
-  worker: sh /app/deploy/docker/backend/celery-entrypoint.sh
+  web: sh server-entrypoint.sh
+  worker: sh celery-entrypoint.sh

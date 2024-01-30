@@ -2,10 +2,10 @@ FROM python:3.12
 
 WORKDIR /app/backend
 
-COPY ../../../backend /app
+COPY . /app
 
-# RUN chmod +x /app/deploy/docker/backend/server-entrypoint.sh
-# RUN chmod +x /app/deploy/docker/backend/celery-entrypoint.sh
+RUN chmod +x /app/deploy/docker/backend/server-entrypoint.sh
+RUN chmod +x /app/deploy/docker/backend/celery-entrypoint.sh
 
 ARG CELERY_BROKER_URL
 ARG CELERY_RESULT_BACKEND
