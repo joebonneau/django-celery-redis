@@ -1,8 +1,8 @@
 FROM python:3.12
 
-WORKDIR /app/backend
+WORKDIR /app
 
-COPY ./backend /app
+COPY ./backend /app/backend
 
 RUN chmod +x server-entrypoint.sh
 RUN chmod +x celery-entrypoint.sh
