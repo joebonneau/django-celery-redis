@@ -1,0 +1,28 @@
+setup:
+  addons:
+    - plan: heroku-postgresql
+      as: db
+    - plan: heroku-redis
+      as: redis
+build:
+  docker:
+    web: ./deploy/docker/backend/Dockerfile
+    worker: ./deploy/docker/backend/Dockerfile
+
+run:
+  web: sh /app/deploy/docker/backend/server-entrypoint.sh
+  worker: sh /app/deploy/docker/backend/celery-entrypoint.sh
+
+env:
+  CELERY_BROKER_URL: "redis://redis:6379/0"
+  CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+  DJANGO_DB: postgresql
+  POSTGRES_HOST: db
+  POSTGRES_NAME: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_PORT: 5432
+
+services:
+  - redis
+  - db
