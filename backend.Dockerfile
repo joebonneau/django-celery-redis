@@ -18,4 +18,4 @@ ARG POSTGRES_NAME
 
 RUN pip install --upgrade pip
 RUN pip install -r ./backend/requirements.txt
-RUN python3 ./backend/manage.py migrate
+# RUN python3 ./backend/manage.py migrate
