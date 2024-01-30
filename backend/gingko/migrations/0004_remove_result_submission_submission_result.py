@@ -5,19 +5,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('gingko', '0003_alter_submission_completed_on_and_more'),
+        ("gingko", "0003_alter_submission_completed_on_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='result',
-            name='submission',
+            model_name="result",
+            name="submission",
         ),
         migrations.AddField(
-            model_name='submission',
-            name='result',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='gingko.result'),
+            model_name="submission",
+            name="result",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="gingko.result",
+            ),
         ),
     ]

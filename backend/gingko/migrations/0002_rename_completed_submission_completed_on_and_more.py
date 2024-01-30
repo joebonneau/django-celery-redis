@@ -5,45 +5,49 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('gingko', '0001_initial'),
+        ("gingko", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='submission',
-            old_name='completed',
-            new_name='completed_on',
+            model_name="submission",
+            old_name="completed",
+            new_name="completed_on",
         ),
         migrations.RenameField(
-            model_name='submission',
-            old_name='initiated',
-            new_name='initiated_on',
+            model_name="submission",
+            old_name="initiated",
+            new_name="initiated_on",
         ),
         migrations.RemoveField(
-            model_name='submission',
-            name='result',
+            model_name="submission",
+            name="result",
         ),
         migrations.AddField(
-            model_name='result',
-            name='submission',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='gingko.submission'),
+            model_name="result",
+            name="submission",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="gingko.submission",
+            ),
         ),
         migrations.AddField(
-            model_name='submission',
-            name='dna_sequence',
-            field=models.CharField(default='', max_length=100),
+            model_name="submission",
+            name="dna_sequence",
+            field=models.CharField(default="", max_length=100),
             preserve_default=False,
         ),
         migrations.AlterField(
-            model_name='result',
-            name='id',
+            model_name="result",
+            name="id",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
         migrations.AlterField(
-            model_name='submission',
-            name='id',
+            model_name="submission",
+            name="id",
             field=models.AutoField(primary_key=True, serialize=False),
         ),
     ]

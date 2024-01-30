@@ -10,9 +10,7 @@ class ResultSerializer(serializers.ModelSerializer):
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
-    # result = ResultSerializer(required=False)
     class Meta:
         model = Submission
         result = serializers.PrimaryKeyRelatedField(read_only=True, required=False)
         fields = ("id", "initiated_on", "completed_on", "status", "result")
-

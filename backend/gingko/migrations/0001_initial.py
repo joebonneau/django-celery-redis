@@ -5,29 +5,48 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Result',
+            name="Result",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('protein_name', models.CharField(max_length=50)),
-                ('loc_in_protein_seq', models.IntegerField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("protein_name", models.CharField(max_length=50)),
+                ("loc_in_protein_seq", models.IntegerField()),
             ],
         ),
         migrations.CreateModel(
-            name='Submission',
+            name="Submission",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('initiated', models.DateTimeField()),
-                ('completed', models.DateTimeField()),
-                ('status', models.CharField(max_length=20)),
-                ('result', models.OneToOneField(on_delete=django.db.models.deletion.PROTECT, to='gingko.result')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("initiated", models.DateTimeField()),
+                ("completed", models.DateTimeField()),
+                ("status", models.CharField(max_length=20)),
+                (
+                    "result",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.PROTECT, to="gingko.result"
+                    ),
+                ),
             ],
         ),
     ]
