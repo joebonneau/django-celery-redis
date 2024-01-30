@@ -4,4 +4,4 @@ until cd /app/backend; do
 	echo "Waiting for backend volume..."
 done
 
-celery -A backend worker -l info
+celery -A backend worker -l info --uid=nobody --gid=nogroup

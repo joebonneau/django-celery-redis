@@ -26,6 +26,7 @@ kombu==5.3.5
 msgpack==1.0.7
 numpy==1.26.3
 prompt-toolkit==3.0.43
+psycopg2==2.9.9
 pyasn1==0.5.1
 pyasn1-modules==0.3.0
 pycparser==2.21
