@@ -33,6 +33,7 @@ def align_sequences(submission_id):
                 {
                     "type": "task.complete",
                     "submission_id": submission_id,
+                    "result_id": result_obj.id,
                     **dict(submission_serializer.data),
                 },
             )

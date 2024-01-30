@@ -22,32 +22,24 @@ class CustomConsumer(AsyncWebsocketConsumer):
             if serializer.is_valid():
                 obj = await sync_to_async(serializer.save)()
                 await self.send(
-                    json.dumps(
-                        {
-                            "type": "websocket.send",
-                            "action": "new_submission",
-                            "payload": serializer.data,
-                        }
-                    )
+                    json.dumps({
+                        "type": "websocket.send", 
+                        "action": "new_submission", 
+                        "payload": serializer.data
+                    })
                 )
                 task = align_sequences.delay(obj.id)
                 task.channel_name = self.channel_name
 
     async def task_complete(self, event):
-        result_obj = await sync_to_async(Result.objects.get)(id=event["result"])
+        result_obj = await sync_to_async(Result.objects.get)(id=event["result_id"])
+        # FIXME: Why doesn't the result field show up at all, nevermind get serialized???
         payload = {
             "id": event["submission_id"],
             "initiated_on": event["initiated_on"],
             "completed_on": event["completed_on"],
             "status": event["status"],
-            "result": model_to_dict(result_obj),
-        }
-        await self.send(
-            text_data=json.dumps(
-                {
-                    "type": "websocket.send",
-                    "action": "update_submission",
-                    "payload": payload,
-                }
-            )
-        )
+            "result": model_to_dict(result_obj)
+        } 
+        await self.send(text_data=json.dumps({"type": "websocket.send", "action": "update_submission", "payload": payload}))
+        
