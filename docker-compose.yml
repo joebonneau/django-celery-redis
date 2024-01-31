@@ -9,6 +9,8 @@ services:
     entrypoint: /app/deploy/docker/backend/server-entrypoint.sh
     ports:
       - "8000:8000"
+    volumes:
+      - ./backend:/app/backend/
     environment:
       CELERY_BROKER_URL: "redis://redis:6379/0"
       CELERY_RESULT_BACKEND: "redis://redis:6379/0"
@@ -27,6 +29,9 @@ services:
       dockerfile: ./deploy/docker/backend/Dockerfile
     entrypoint: /app/deploy/docker/backend/celery-entrypoint.sh
     volumes:
+      # - type: bind
+      #   source: ./backend
+      #   target: /app/backend
       - ./backend:/app/backend/
     environment:
       DEBUG: "True"

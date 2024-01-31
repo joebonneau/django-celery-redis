@@ -23,12 +23,12 @@ class CustomConsumer(AsyncWebsocketConsumer):
                 obj = await sync_to_async(serializer.save)()
                 await self.send(
                     json.dumps({
-                        "type": "websocket.send", 
-                        "action": "new_submission", 
+                        "type": "websocket.send",
+                        "action": "new_submission",
                         "payload": serializer.data
                     })
                 )
-                task = align_sequences.delay(obj.id)
+                task = align_sequences.delay(obj.id, data["payload"]["dna_sequence"])
                 task.channel_name = self.channel_name
 
     async def task_complete(self, event):
