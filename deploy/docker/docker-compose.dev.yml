@@ -64,7 +64,7 @@ services:
     build:
       context: .
       dockerfile: ./deploy/docker/frontend/Dockerfile
-    entrypoint: "npm run dev"
+    entrypoint: /app/frontend/frontend-entrypoint-dev.sh
     volumes:
       - ./frontend:/app/frontend/
     ports:

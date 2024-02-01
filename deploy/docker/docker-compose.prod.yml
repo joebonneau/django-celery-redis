@@ -64,7 +64,7 @@ services:
     build:
       context: .
       dockerfile: ./deploy/docker/frontend/Dockerfile
-    entrypoint: "npm run build && npm run start"
+    entrypoint: /app/frontend/frontend-entrypoint-prod.sh
     environment:
       NODE_ENV: "production"
     ports:
