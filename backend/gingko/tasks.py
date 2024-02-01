@@ -35,17 +35,20 @@ def fetch_genome_record(genome):
 @shared_task
 def align_sequences(submission_id, dna_sequence):
     start = None
+    genome_name = ""
+    idx = -1
     for genome in GENOMES:
         genome_record = fetch_genome_record(genome)
         idx = genome_record.seq.find(dna_sequence)
         if idx != -1:
             start = idx
+            genome_name = genome
             break
     result_obj = Result.objects.create(
-        genome_name=genome if start else None,
+        genome_name=genome_name if start else None,
         start_index=start,
         end_index=start + len(dna_sequence) if start is not None else None,
-        match_found=True,
+        match_found=idx != -1,
     )
     new_data = {
         "result": result_obj,

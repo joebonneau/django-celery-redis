@@ -42,6 +42,7 @@ function SubmissionCard({
           </li>
         </ul>
       )}
+      {hasResult && !result?.match_found && "No match found"}
     </Card>
   );
 }
