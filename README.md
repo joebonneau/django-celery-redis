@@ -14,6 +14,7 @@ A full-stack web app that can determine whether a particular DNA strand (user-pr
 If I had more time, I would:
 
 - add unit tests!
+- add a webserver such as nginx to proxy requests
 - spend more time on the security of the production deployment
 - add some authentication
 - make the frontend look a little nicer
