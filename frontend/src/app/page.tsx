@@ -2,13 +2,13 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Container, Form } from "react-bootstrap";
 import useWebSocket from "react-use-websocket";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 type Result = {
   id: number;
-  submission_id: number;
-  protein_name: string;
-  loc_in_protein_seq: number;
+  genome_name: string;
+  start_index: number;
+  end_index: number;
+  match_found: boolean;
 };
 type Submission = {
   id: number;
@@ -19,13 +19,38 @@ type Submission = {
   result?: Result;
 };
 
+function SubmissionCard({
+  submission,
+}: {
+  submission: Submission;
+}): React.JSX.Element {
+  const hasResult = submission.result !== null;
+  const result = submission?.result;
+  return (
+    <Card>
+      <ul>
+        <li>Submitted sequence: {submission.dna_sequence}</li>
+        <li>Submitted on: {submission.initiated_on}</li>
+        <li>Completed on: {submission.completed_on ?? "N/A"}</li>
+      </ul>
+      {!result && "Alignment results pending"}
+      {hasResult && result?.match_found && (
+        <ul>
+          <li>Genome name: {result.genome_name}</li>
+          <li>
+            Index range: [{result.start_index}, {result.end_index}]
+          </li>
+        </ul>
+      )}
+    </Card>
+  );
+}
+
 export default function Page() {
   const [dnaSequence, setDnaSequence] = useState<string>("");
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [previousMessage, setPreviousMessage] = useState<string | null>(null);
-  const { sendMessage, lastMessage, sendJsonMessage } = useWebSocket(
-    "ws://localhost:8000/",
-  );
+  const { lastMessage, sendJsonMessage } = useWebSocket("ws://localhost:8000/");
 
   async function getSubmissions() {
     try {
@@ -36,22 +61,6 @@ export default function Page() {
       console.log(error);
     }
   }
-
-  // async function createSubmission() {
-  //   try {
-  //     const response = await fetch("http://localhost:8000/api/submissions/", {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({
-  //         dna_sequence: dnaSequence,
-  //         initiated_on: new Date().toISOString(),
-  //       }),
-  //     });
-  //     setSubmissions([...submissions, await response.json()]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   useEffect(() => {
     getSubmissions();
@@ -84,7 +93,7 @@ export default function Page() {
 
   return (
     <Container>
-      <h1>Protein Alignment</h1>
+      <h1>Genome Alignment</h1>
       <Form>
         <Form.Group>
           <Form.Label>DNA Sequence</Form.Label>
@@ -102,9 +111,7 @@ export default function Page() {
           disabled={!dnaSequence}
           onClick={(e) => {
             e.preventDefault();
-            console.log(dnaSequence);
             setDnaSequence("");
-            // createSubmission();
             sendJsonMessage({
               action: "create_submission",
               payload: {
@@ -114,26 +121,19 @@ export default function Page() {
             });
           }}
         >
-          Find Protein
+          Find Genome
         </Button>
       </Form>
       <div style={{ marginTop: "1rem" }}>
         <h1>Submissions</h1>
-        <Card>
+        <div>
           {submissions &&
             submissions.map((submission) => {
               return (
-                <p key={submission.id}>
-                  {submission.initiated_on},{" "}
-                  {submission.completed_on ?? "incomplete"}, {submission.status}
-                  , {submission.dna_sequence},{" "}
-                  {submission.result
-                    ? submission.result.protein_name
-                    : "no result"}
-                </p>
+                <SubmissionCard key={submission.id} submission={submission} />
               );
             })}
-        </Card>
+        </div>
       </div>
     </Container>
   );

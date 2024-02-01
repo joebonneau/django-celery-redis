@@ -1,5 +1,7 @@
+import "bootstrap/dist/css/bootstrap.min.css";
+
 export const metadata = {
-  title: "Protein Alignment",
+  title: "Genome Alignment",
   description: "Joe Bonneau take-home",
 };
 
