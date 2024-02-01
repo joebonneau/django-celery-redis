@@ -1,12 +1,12 @@
 from django.db import models
 
-# Create your models here.
-
 
 class Result(models.Model):
     id = models.AutoField(primary_key=True)
-    protein_name = models.CharField(max_length=50)
-    loc_in_protein_seq = models.IntegerField()
+    genome_name = models.CharField(max_length=50, null=True)
+    start_index = models.IntegerField(null=True)
+    end_index = models.IntegerField(null=True)
+    match_found = models.BooleanField(default=False)
 
 
 class Submission(models.Model):

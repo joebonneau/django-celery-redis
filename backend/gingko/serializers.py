@@ -6,7 +6,7 @@ from gingko.models import Result, Submission
 class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
-        fields = ("id", "protein_name", "loc_in_protein_seq")
+        fields = ("id", "genome_name", "start_index", "end_index", "match_found")
 
 
 class SubmissionSerializer(serializers.ModelSerializer):
@@ -14,4 +14,11 @@ class SubmissionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Submission
-        fields = ("id", "initiated_on", "completed_on", "status", "result")
+        fields = (
+            "id",
+            "initiated_on",
+            "completed_on",
+            "dna_sequence",
+            "status",
+            "result",
+        )
