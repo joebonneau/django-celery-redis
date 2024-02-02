@@ -116,7 +116,7 @@ export default function Page() {
             sendJsonMessage({
               action: "create_submission",
               payload: {
-                dna_sequence: dnaSequence.toUpperCase(),
+                dna_sequence: dnaSequence.toUpperCase().replaceAll(" ", ""),
                 initiated_on: new Date().toISOString(),
               },
             });
