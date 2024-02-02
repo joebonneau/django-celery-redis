@@ -48,14 +48,19 @@ function SubmissionCard({
 }
 
 export default function Page() {
+  let host = "localhost";
+  if (process.env.NODE_ENV === "production") {
+    host = "24.199.71.90";
+  }
+
   const [dnaSequence, setDnaSequence] = useState<string>("");
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [previousMessage, setPreviousMessage] = useState<string | null>(null);
-  const { lastMessage, sendJsonMessage } = useWebSocket("ws://localhost:8000/");
+  const { lastMessage, sendJsonMessage } = useWebSocket(`ws://${host}:8000/`);
 
   async function getSubmissions() {
     try {
-      const response = await fetch("http://localhost:8000/api/submissions/");
+      const response = await fetch(`http://${host}:8000/api/submissions/`);
       const data: Submission[] = await response.json();
       setSubmissions(data);
     } catch (error) {
