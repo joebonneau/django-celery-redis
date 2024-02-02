@@ -64,7 +64,7 @@ services:
     build:
       context: .
       dockerfile: ./deploy/docker/frontend/Dockerfile
-    entrypoint: /app/frontend/frontend-entrypoint-dev.sh
+    entrypoint: /app/deploy/docker/frontend/frontend-entrypoint-dev.sh
     volumes:
       - ./frontend:/app/frontend/
     ports:
